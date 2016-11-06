@@ -13,6 +13,7 @@
     "codeigniter/framework": "3.1.*",
     "illuminate/database": "5.0.*",
     "leafo/scssphp": "0.6.*",
+    "psy/psysh": "0.7.*",
     "sami/sami": "3.3.*",
     "symfony/var-dumper": "2.8.*"
   },
@@ -35,9 +36,10 @@
   },
   "scripts": {
     "docs": [
-      "php vendor/sami/sami/sami.php update --force scripts/docs.php",
+      "php vendor/bin/sami.php update --force scripts/docs.php",
       "php -S localhost:9000 -t docs/api"
     ],
+    "fly": "vendor/bin/psysh",
     "preview": "php -S 0.0.0.0:9000 -t public scripts/serve.php",
     "serve": "php -S localhost:9000 -t public scripts/serve.php"
   }
