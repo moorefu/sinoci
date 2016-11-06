@@ -19,9 +19,6 @@ class Controller
 
     public function __get($name)
     {
-        // 修复 agent 类库
-        $name === 'agent' && $name == 'user_agent';
-
         // 修复 cache 类库
         if ($name === 'cache') {
             app()->load->driver('cache', ['adapter' => 'redis', 'backup' => 'file']);
@@ -29,8 +26,8 @@ class Controller
         }
 
         // 加载 CI 类库
-        if (in_array($name, ['cart', 'email', 'encryption', 'session', 'user_agent'])) {
-            app()->load->library($name);
+        if (in_array($name, ['agent', 'cart', 'email', 'encryption', 'session', 'unit'])) {
+            app()->load->library(array_get(['agent' => 'user_agent', 'unit' => 'unit_test'], $name, $name));
             return app()->$name;
         }
 
