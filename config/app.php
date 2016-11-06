@@ -1,6 +1,6 @@
 <?php
 
-// 设置运行环境
+// 设置环境变量
 $_['APP_ENV'] = getenv('APP_ENV') ?: 'develop';
 
 // 是否调试模式
@@ -20,16 +20,13 @@ array_walk($_, function ($v, $k) {
     defined($k) OR define($k, $v);
 });
 
-// 定义 ENVIRONMENT 常量：运行环境
-define('ENVIRONMENT', APP_ENV);
-
-// 设置控制器目录
-$routing['directory'] = ENVIRONMENT;
+// 设置运行环境与控制器分组
+define('ENVIRONMENT', $routing['directory'] = APP_ENV);
 
 // 调试环境下配置
 if (APP_DEBUG) {
-    ini_set('error_reporting', -1);
     ini_set('display_errors', 1);
+    ini_set('error_reporting', -1);
     ini_set('opcache.enable', 0);
 }
 
