@@ -2,9 +2,21 @@
 
 namespace App\Services;
 
+/**
+ * 框架组件 - 控制器
+ *
+ * @package App\Services
+ */
 class Controller
 {
 
+    /**
+     * 程序执行逻辑
+     *
+     * @param string $func
+     * @param array $args
+     * @return \CI_Output
+     */
     public function _remap($func, array $args)
     {
         // 排除不存在的方法
@@ -17,6 +29,12 @@ class Controller
         return app()->output->set_output($output);
     }
 
+    /**
+     * 常用类库自动加载
+     *
+     * @param string $name
+     * @return mixed
+     */
     public function __get($name)
     {
         // 修复 cache 类库
