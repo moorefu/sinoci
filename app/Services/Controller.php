@@ -26,7 +26,7 @@ class Controller
         }
 
         // 加载 CI 类库
-        if (in_array($name, ['agent', 'cart', 'email', 'encryption', 'session', 'unit'])) {
+        if (in_array($name, ['agent', 'cart', 'email', 'encryption', 'form_validation', 'image_lib', 'session', 'unit', 'upload'])) {
             app()->load->library(array_get(['agent' => 'user_agent', 'unit' => 'unit_test'], $name, $name));
             return app()->$name;
         }
