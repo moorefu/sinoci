@@ -35,18 +35,18 @@ if (noFunc('app')) {
 
 if (noFunc('config')) {
 
-    function config($key)
+    function config($key, $default = null)
     {
-        return array_get(get_config(), $key);
+        return array_get(get_config(), $key, $default);
     }
 
 }
 
 if (noFunc('env')) {
 
-    function env($key, $value = null)
+    function env($key, $default = null)
     {
-        return getenv($key) ?: $value;
+        return getenv($key) ?: $default;
     }
 
 }
