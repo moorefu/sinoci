@@ -1,5 +1,8 @@
 <?php
 
+use App\Services\Table;
+use Illuminate\Support\Facades\View;
+
 if (empty(function_exists('noFunc'))) {
 
     function noFunc($name)
@@ -62,6 +65,30 @@ if (noFunc('lang')) {
         app()->lang->load($file ?: APP_ENV, $lang, false, false);
 
         return app()->lang->line($index) ?: $index;
+    }
+
+}
+
+if (noFunc('table')) {
+
+    function table($name = '')
+    {
+        if (empty($name)) {
+            return new Table;
+        }
+
+        $table = '\\App\\Tables\\' . $name;
+
+        return new $table;
+    }
+
+}
+
+if (noFunc('view')) {
+
+    function view($path = '', $data = null)
+    {
+        return View::make($path, $data);
     }
 
 }

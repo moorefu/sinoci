@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Support\Collection;
+
 /**
  * 框架组件 - 控制器
  *
@@ -22,8 +26,23 @@ class Controller
         // 排除不存在的方法
         method_exists(app(), $func) OR show_404();
 
+        // 加载类库和语言
+        app()->load->add_package_path(APPPATH . 'resources');
+
         // 获取程序执行结果
         $output = call_user_func_array([app(), $func], $args);
+
+        // 转换数组
+        is_array($output) && $output = collect($output);
+
+        // 转换模型
+        $output instanceof Model && $output = collect($output);
+
+        // 转换分页
+        $output instanceof AbstractPaginator && $output = $output->getCollection();
+
+        // 设置响应类型
+        $output instanceof Collection && app()->output->set_content_type('json');
 
         // 返回请求结果
         return app()->output->set_output($output);
@@ -51,6 +70,31 @@ class Controller
 
         // 加载系统类库
         return load_class($name === 'load' ? 'Loader' : is_loaded()[$name], 'core');
+    }
+
+    /**
+     * 相应渲染视图
+     *
+     * @param mixed $data
+     * @param string $view
+     * @param bool $absolute
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function view($data = null, $view = null, $absolute = false)
+    {
+        // 转换无数据模板
+        is_string($data) && $view = $data;
+
+        // 映射相应模板
+        $view = $view ?: implode('.', [
+            app()->uri->rsegment(1), app()->uri->rsegment(2)
+        ]);
+
+        // 添加路径前缀
+        $absolute OR $view = APP_ENV . '.' . $view;
+
+        // 返回渲染结果
+        return view($view, compact('data'));
     }
 
 }
