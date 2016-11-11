@@ -16,7 +16,8 @@ class Welcome extends Controller
 
     public function guide()
     {
-        return 'sinoci';
+        // 跳转到项目主页
+        return header('Location: https://github.com/sinoci/sinoci');
     }
 
 }
