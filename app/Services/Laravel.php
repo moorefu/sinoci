@@ -35,7 +35,7 @@ class Laravel
         // 初始化容器
         $this->container = new Container;
 
-        // 循环开启功能
+        // 依次开启功能
         $this->bootEloquent();
         $this->bootBlade();
 

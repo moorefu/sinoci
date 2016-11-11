@@ -14,4 +14,9 @@ class Welcome extends Controller
         return app()->load->view('welcome_message', null, true);
     }
 
+    public function guide()
+    {
+        return 'sinoci';
+    }
+
 }
