@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -52,6 +53,7 @@ class Laravel
     {
         // 初始化相关服务
         $this->bootService(EventServiceProvider::class);
+        $this->bootService(DatabaseServiceProvider::class);
 
         // 加载数据库配置
         load_class('Config', 'core')->load('database', true);
