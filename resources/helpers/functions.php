@@ -86,7 +86,7 @@ if (noFunc('table')) {
 
 if (noFunc('view')) {
 
-    function view($path = '', $data = null)
+    function view($path = '', $data = [])
     {
         return View::make($path, $data);
     }
