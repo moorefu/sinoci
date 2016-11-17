@@ -16,6 +16,7 @@ class Socket
     public function __construct($port = 2020)
     {
         $io = new SocketIO($port);
+
         $io->on('connection', function($socket){
             $socket->addedUser = false;
 
@@ -76,7 +77,6 @@ class Socket
                     ));
                 }
             });
-
         });
 
         Worker::runAll();
