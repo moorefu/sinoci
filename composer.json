@@ -1,7 +1,7 @@
 {
   "name": "sinoci/sinoci",
   "description": "Simple yet powerful framework for building modern web sites.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/sinoci/sinoci",
   "license": "MIT",
   "support": {
