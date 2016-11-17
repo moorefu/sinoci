@@ -41,12 +41,6 @@
     "process-timeout": 0
   },
   "scripts": {
-    "docs": [
-      "php vendor/bin/sami.php update --force scripts/docs.php",
-      "php -S localhost:9000 -t docs/api"
-    ],
-    "fly": "vendor/bin/psysh",
-    "preview": "php -S 0.0.0.0:9000 -t public scripts/serve.php",
-    "serve": "php -S localhost:9000 -t public scripts/serve.php"
+    "run": "App\\Services\\Script::run"
   }
 }
