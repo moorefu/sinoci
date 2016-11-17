@@ -98,6 +98,9 @@ class Laravel
         // 初始化相关服务
         $this->bootService(FilesystemServiceProvider::class);
         $this->bootService(ViewServiceProvider::class);
+
+        // 创建模板编译目录
+        file_exists(config('cache_path')) OR mkdir(config('cache_path'));
     }
 
     /**
