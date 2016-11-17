@@ -53,4 +53,12 @@ class Script
         passthru('php -S localhost:9000 -t docs/api');
     }
 
+    /**
+     * 开启推送服务
+     */
+    public function push()
+    {
+        passthru('php scripts/serve.push.php start');
+    }
+
 }
