@@ -44,6 +44,7 @@ class Socket
         if (is_null(static::$server)) {
             static::$server = new SocketIO($port);
             static::$server->on('connection', [$this, 'connect']);
+            static::$server->on('workerStart', [$this, 'listen']);
             Worker::runAll();
         }
     }
@@ -72,6 +73,20 @@ class Socket
 
         // 添加到客户端队列
         static::$client[] = $client;
+    }
+
+    /**
+     * 开启内部端口监听
+     */
+    public function listen()
+    {
+        $inner = new Worker('Text://0.0.0.0:2121');
+        $inner->onMessage = function ($event, $data) {
+            $input = unserialize($data);
+            $output = call_user_func($input, $this);
+            $event->send(serialize($output));
+        };
+        $inner->listen();
     }
 
     public function onNewMessage($data)
