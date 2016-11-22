@@ -90,6 +90,15 @@ if (noFunc('request')) {
 
 }
 
+if (noFunc('response')) {
+
+    function response()
+    {
+        return app()->output;
+    }
+
+}
+
 if (noFunc('session')) {
 
     function session()

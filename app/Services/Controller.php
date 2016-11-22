@@ -42,10 +42,10 @@ class Controller
         $output instanceof AbstractPaginator && $output = $output->getCollection();
 
         // 设置响应类型
-        $output instanceof Collection && app()->output->set_content_type('json');
+        $output instanceof Collection && response()->set_content_type('json');
 
         // 返回请求结果
-        return app()->output->set_output($output);
+        return response()->set_output($output);
     }
 
     /**
