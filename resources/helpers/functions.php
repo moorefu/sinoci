@@ -69,6 +69,18 @@ if (noFunc('lang')) {
 
 }
 
+if (noFunc('push')) {
+
+    function push($target = [])
+    {
+        $client = stream_socket_client('tcp://localhost:2021');
+        fwrite($client, json_encode($target) . "\n");
+        fread($client, 8192);
+        fclose($client);
+    }
+
+}
+
 if (noFunc('request')) {
 
     function request()

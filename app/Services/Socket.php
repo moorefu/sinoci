@@ -80,11 +80,12 @@ class Socket
      */
     public function listen()
     {
-        $inner = new Worker('Text://0.0.0.0:2121');
+        $inner = new Worker('text://0.0.0.0:2121');
         $inner->onMessage = function ($event, $data) {
-            $input = unserialize($data);
-            $output = call_user_func($input, $this);
-            $event->send(serialize($output));
+            $input = json_decode($data);
+            // TODO: 触发响应
+//            $output = call_user_func($input, $this);
+//            $event->send($output);
         };
         $inner->listen();
     }
