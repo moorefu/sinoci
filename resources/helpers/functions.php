@@ -71,12 +71,14 @@ if (noFunc('lang')) {
 
 if (noFunc('push')) {
 
-    function push($target = [])
+    function push($input, $data = [])
     {
-        $client = stream_socket_client('tcp://localhost:2021');
-        fwrite($client, json_encode($target) . "\n");
-        fread($client, 8192);
-        fclose($client);
+        is_string($input) && $input = [$input => $data];
+        $socket = stream_socket_client('tcp://127.0.0.1:2021');
+        fwrite($socket, json_encode($input) . "\n");
+        $output = fread($socket, 8192);
+        fclose($socket);
+        return $output;
     }
 
 }

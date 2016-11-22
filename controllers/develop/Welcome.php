@@ -20,4 +20,10 @@ class Welcome extends Controller
         return header('Location: https://github.com/sinoci/sinoci');
     }
 
+    public function chat($client, $message)
+    {
+        // 发送消息
+        return push('new message', [$client, $message]);
+    }
+
 }

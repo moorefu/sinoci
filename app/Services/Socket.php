@@ -58,6 +58,7 @@ class Socket
     {
         // 变量赋值
         $socket->addedUser = false;
+        $socket->token = static::$client ? count(static::$client) : 0;
 
         // 连接客户端
         $client = new static;
@@ -80,14 +81,31 @@ class Socket
      */
     public function listen()
     {
-        $inner = new Worker('text://0.0.0.0:2121');
-        $inner->onMessage = function ($event, $data) {
-            $input = json_decode($data);
-            // TODO: 触发响应
-//            $output = call_user_func($input, $this);
-//            $event->send($output);
+        $inner = new Worker('text://127.0.0.1:2021');
+        $inner->onMessage = function ($socket, $input) {
+            $input = json_decode($input);
+            $output = true;
+            foreach ($input as $k => $v) {
+                $output = $output && call_user_func_array([$this, 'do' . studly_case($k)], $v);
+            }
+            $socket->send($output);
         };
         $inner->listen();
+    }
+
+    /**
+     * 用指定身份发送消息
+     *
+     * @param $target
+     * @param $message
+     * @return mixed
+     */
+    public function doNewMessage($target, $message)
+    {
+        return static::$client[$target]->socket->broadcast->emit('new message', [
+            'username' => '[robot]' . static::$client[$target]->socket->username,
+            'message' => $message
+        ]);
     }
 
     public function onNewMessage($data)
@@ -95,7 +113,7 @@ class Socket
         // we tell the client to execute 'new message'
         $this->socket->broadcast->emit('new message', [
             'username' => $this->socket->username,
-            'message' => $data
+            'message' => $data . ':' . $this->socket->token
         ]);
     }
 
