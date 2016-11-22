@@ -61,7 +61,7 @@ class Laravel
 
         // 修复分页页码
         Paginator::currentPageResolver(function () {
-            return app()->input->get('page') ?: 1;
+            return request()->get('page') ?: 1;
         });
 
         // 定制分页样式
@@ -71,7 +71,7 @@ class Laravel
             $paginator->setPath(null);
 
             // 添加已有参数
-            $paginator->appends(array_except(app()->input->get(), 'page'));
+            $paginator->appends(array_except(request()->get(), 'page'));
 
             // 返回分页模板
             return new Pagination($paginator);

@@ -28,7 +28,7 @@ class Pagination extends BootstrapThreePresenter
         $data = [
             'current' => $this->currentPage(),
             'default' => parent::render(),
-            'query' => array_except(app()->input->get(), 'page'),
+            'query' => array_except(request()->get(), 'page'),
             'total' => $this->lastPage()
         ];
 

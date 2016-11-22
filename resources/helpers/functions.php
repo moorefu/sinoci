@@ -69,6 +69,24 @@ if (noFunc('lang')) {
 
 }
 
+if (noFunc('request')) {
+
+    function request()
+    {
+        return app()->input;
+    }
+
+}
+
+if (noFunc('session')) {
+
+    function session()
+    {
+        return app()->session;
+    }
+
+}
+
 if (noFunc('table')) {
 
     function table($name = '')
