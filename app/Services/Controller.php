@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Support\Collection;
 
 /**
  * 框架组件 - 控制器
@@ -32,17 +31,15 @@ class Controller
         // 获取程序执行结果
         $output = call_user_func_array([app(), $func], $args);
 
-        // 转换数组
-        is_array($output) && $output = collect($output);
-
-        // 转换模型
-        $output instanceof Model && $output = collect($output);
-
-        // 转换分页
+        // 转换为数组
         $output instanceof AbstractPaginator && $output = $output->getCollection();
+        $output instanceof Arrayable && $output = $output->toArray();
 
-        // 设置响应类型
-        $output instanceof Collection && response()->set_content_type('json');
+        // 设置编码与响应类型
+        if (is_array($output)) {
+            $output = json_encode($output, JSON_UNESCAPED_UNICODE);
+            response()->set_content_type('json');
+        }
 
         // 返回请求结果
         return response()->set_output($output);
