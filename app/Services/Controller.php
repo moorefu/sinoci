@@ -42,7 +42,7 @@ class Controller
         }
 
         // 返回请求结果
-        return response()->set_output($output);
+        return response($output);
     }
 
     /**

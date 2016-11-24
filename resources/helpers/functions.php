@@ -23,9 +23,9 @@ if (noFunc('noFile')) {
 
 if (noFunc('app')) {
 
-    function app($name = '')
+    function app($name = null)
     {
-        if (empty($name)) {
+        if (is_null($name)) {
             return $GLOBALS['CI'];
         }
 
@@ -56,9 +56,9 @@ if (noFunc('env')) {
 
 if (noFunc('lang')) {
 
-    function lang($key, $lang = '')
+    function lang($key, $lang = null)
     {
-        $lang OR $lang = app()->session->language ?: config('language');
+        is_null($lang) && $lang = app()->session->language ?: config('language');
 
         list($index, $file) = explode('@', $key);
 
@@ -94,27 +94,39 @@ if (noFunc('request')) {
 
 if (noFunc('response')) {
 
-    function response()
+    function response($data = null)
     {
-        return app()->output;
+        if (is_null($data)) {
+            return app()->output;
+        }
+
+        return app()->output->set_output($data);
     }
 
 }
 
 if (noFunc('session')) {
 
-    function session()
+    function session($key = null, $value = null, $isFlash = false)
     {
-        return app()->session;
+        if (is_null($key)) {
+            return app()->session;
+        }
+
+        if (is_null($value)) {
+            return app()->session->{$value};
+        }
+
+        app()->session->{$isFlash ? 'set_flashdata' : 'set_userdata'}($key, $value);
     }
 
 }
 
 if (noFunc('table')) {
 
-    function table($name = '')
+    function table($name = null)
     {
-        if (empty($name)) {
+        if (is_null($name)) {
             return new Table;
         }
 
@@ -127,7 +139,7 @@ if (noFunc('table')) {
 
 if (noFunc('view')) {
 
-    function view($path = '', $data = [])
+    function view($path, $data = [])
     {
         return View::make($path, $data);
     }
