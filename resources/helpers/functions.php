@@ -29,7 +29,7 @@ if (noFunc('app')) {
             return $GLOBALS['CI'];
         }
 
-        $model = '\\App\\Models\\' . $name;
+        $model = '\\App\\Models\\' . str_replace('.', '\\', $name);
 
         return new $model;
     }
@@ -130,7 +130,7 @@ if (noFunc('table')) {
             return new Table;
         }
 
-        $table = '\\App\\Tables\\' . $name;
+        $table = '\\App\\Tables\\' . str_replace('.', '\\', $name);
 
         return new $table;
     }
