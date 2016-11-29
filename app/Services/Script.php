@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Composer\Script\Event;
-
 /**
  * 框架组件 - 命令脚本
  *
@@ -17,7 +15,7 @@ class Script
      *
      * @param Event $event
      */
-    public static function run(Event $event)
+    public static function run($event)
     {
         // 自动加载
         define('APPPATH', dirname($event->getComposer()->getConfig()->get('vendor-dir')) . '/');
