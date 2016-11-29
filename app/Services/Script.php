@@ -29,11 +29,43 @@ class Script
     }
 
     /**
-     * 进入调试模式
+     * 生成接口手册
      */
-    public function fly()
+    public function api()
     {
-        eval(\Psy\sh());
+        passthru('php vendor/bin/sami.php update --force scripts/docs.api.php');
+        passthru('php -S localhost:9000 -t docs/api');
+    }
+
+    /**
+     * 导入已有静态资源
+     */
+    public function assets()
+    {
+        $resources = [
+            'vendor/sami/sami/Sami/Resources/themes/default/css' => [
+                'bootstrap.min.css',
+                'bootstrap-theme.min.css'
+            ],
+            'vendor/sami/sami/Sami/Resources/themes/default/js' => [
+                'bootstrap.min.js'
+            ],
+            'vendor/workerman/phpsocket.io/examples/chat/public' => [
+                'jquery.min.js'
+            ],
+            'vendor/workerman/phpsocket.io/examples/chat/public/socket.io-client' => [
+                'socket.io.js'
+            ]
+        ];
+
+        array_walk($resources, function ($resource, $key, $vendor = 'resources/assets/vendor') {
+
+            file_exists(APPPATH . $vendor) OR mkdir(APPPATH . $vendor);
+
+            foreach ($resource as $filename) {
+                copy(APPPATH . $key . '/' . $filename, APPPATH . $vendor . '/' . $filename);
+            }
+        });
     }
 
     /**
@@ -45,12 +77,11 @@ class Script
     }
 
     /**
-     * 生成接口手册
+     * 进入调试模式
      */
-    public function api()
+    public function fly()
     {
-        passthru('php vendor/bin/sami.php update --force scripts/docs.api.php');
-        passthru('php -S localhost:9000 -t docs/api');
+        eval(\Psy\sh());
     }
 
     /**
