@@ -33,7 +33,7 @@ class Script
      */
     public function api()
     {
-        passthru('php vendor/bin/sami.php update --force scripts/docs.api.php');
+        passthru('php vendor/sami/sami/sami.php update --force scripts/docs.api.php');
         passthru('php -S localhost:9000 -t docs/api');
     }
 
@@ -73,7 +73,7 @@ class Script
      */
     public function dev()
     {
-        passthru(PHP_BINARY . ' -S localhost:9000 -t public scripts/serve.dev.php');
+        passthru('php -S localhost:9000 -t public scripts/serve.dev.php');
     }
 
     /**
@@ -81,7 +81,7 @@ class Script
      */
     public function fly()
     {
-        eval(\Psy\sh());
+        passthru('php vendor/psy/psysh/bin/psysh');
     }
 
     /**
