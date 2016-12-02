@@ -85,9 +85,10 @@ class Script
     /**
      * 开启推送服务
      */
-    public function push()
+    public function push($command = 'start')
     {
-        passthru('php scripts/serve.push.php start');
+        $command == 'daemon' && $command = 'start -d';
+        passthru('php scripts/serve.push.php ' . $command);
     }
 
 }
