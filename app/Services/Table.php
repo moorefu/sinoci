@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * 框架组件 - 数据表
  *
  * @package App\Services
  */
-class Table extends Model
+class Table extends Eloquent
 {
 
     /**
