@@ -67,17 +67,9 @@ class Script
     }
 
     /**
-     * 启动服务器
-     */
-    public function dev()
-    {
-        passthru('php -S localhost:9000 -t public scripts/serve.dev.php');
-    }
-
-    /**
      * 进入调试模式
      */
-    public function fly()
+    public function debug()
     {
         passthru('php vendor/psy/psysh/bin/psysh');
     }
@@ -89,6 +81,17 @@ class Script
     {
         $command == 'daemon' && $command = 'start -d';
         passthru('php scripts/serve.push.php ' . $command);
+    }
+
+    /**
+     * 启动服务器
+     */
+    public function serve($address = 'localhost', $port = 9000)
+    {
+        $address .= ':' . $port;
+        echo "Listening on http://{$address}\n";
+        echo "Press Ctrl-C to quit.\n";
+        passthru("php -S {$address} -t public scripts/serve.dev.php");
     }
 
 }
