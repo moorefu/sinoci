@@ -85,9 +85,15 @@ if (noFunc('push')) {
 
 if (noFunc('request')) {
 
-    function request()
+    function request($data = null)
     {
-        return app()->input;
+        if (is_null($data)) {
+            return app()->input;
+        }
+
+        $method = app()->input->method();
+
+        return array_get(app()->input->{$method}(), $data);
     }
 
 }
