@@ -11,7 +11,7 @@ $root = dirname(__DIR__);
 $finder = Finder::create()->files()->name('*.php');
 
 // 配置规则
-$finder->exclude(['storage', 'vendor'])->in($root);
+$finder->exclude(['controllers', 'storage', 'vendor'])->in($root);
 
 // 生成手册
 return new Sami($finder, [
