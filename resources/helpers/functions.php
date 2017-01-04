@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Process;
 use App\Services\Table;
 use Illuminate\Support\Facades\View;
 
@@ -65,6 +66,15 @@ if (noFunc('lang')) {
         app()->lang->load($file ?: APP_ENV, $lang, false, false);
 
         return app()->lang->line($index) ?: $index;
+    }
+
+}
+
+if (noFunc('process')) {
+
+    function process()
+    {
+        return Process::instance();
     }
 
 }

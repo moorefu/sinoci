@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Promise\Promise;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\AbstractPaginator;
 
@@ -30,6 +31,12 @@ class Controller
 
         // 获取程序执行结果
         $output = call_user_func_array([app(), $func], $args);
+
+        // 分步执行
+        if ($output instanceof Promise) {
+            process()->resolve(null);
+            $output = $output->wait();
+        }
 
         // 转换为数组
         $output instanceof AbstractPaginator && $output = $output->getCollection();
