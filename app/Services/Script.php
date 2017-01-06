@@ -94,4 +94,15 @@ class Script
         passthru("php -S {$address} -t public scripts/serve.dev.php");
     }
 
+    /**
+     * 修正依赖包
+     */
+    public function setup()
+    {
+        $file = 'vendor/guzzlehttp/promises/src/Promise.php';
+        $contents = file_get_contents($file);
+        $contents = str_replace('new Promise', 'new static', $contents);
+        file_put_contents($file, $contents);
+    }
+
 }
