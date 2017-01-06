@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Promise\Promise;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\AbstractPaginator;
 
@@ -33,7 +32,7 @@ class Controller
         $output = call_user_func_array([app(), $func], $args);
 
         // 分步执行
-        if ($output instanceof Promise) {
+        if ($output instanceof Process) {
             process()->resolve(null);
             $output = $output->wait();
         }

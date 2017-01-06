@@ -23,9 +23,14 @@ class Process extends Promise
         return self::$instance;
     }
 
-    public function next($resolve = null, $reject = null)
+    public function next($resolve = null)
     {
-        return $this->then($resolve, $reject);
+        return $this->then($resolve);
+    }
+
+    public function fail($reject = null)
+    {
+        return $this->otherwise($reject);
     }
 
 }
