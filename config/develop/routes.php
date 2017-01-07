@@ -1,10 +1,8 @@
 <?php
 
 call_user_func(function ($routes = [
-    'GET' => [
-        // 入门手册
-        '/user_guide' => 'welcome/guide'
-    ]
+    'GET' => [],
+    'POST' => []
 ]) use (&$route) {
     foreach ($routes as $method => $uri) {
         foreach ($uri as $url => $action) {
