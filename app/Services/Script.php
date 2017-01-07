@@ -53,15 +53,21 @@ class Script
             ],
             'vendor/workerman/phpsocket.io/examples/chat/public/socket.io-client' => [
                 'socket.io.js'
-            ]
+            ],
+            'vendor/uikit/uikit' => 'uikit'
         ];
 
         array_walk($resources, function ($resource, $key, $vendor = 'resources/assets/vendor') {
 
             file_exists(APPPATH . $vendor) OR mkdir(APPPATH . $vendor);
 
-            foreach ($resource as $filename) {
-                copy(APPPATH . $key . '/' . $filename, APPPATH . $vendor . '/' . $filename);
+            if (is_string($resource)) {
+                passthru('cp -a ' . APPPATH . "{$key} " . APPPATH . "{$vendor}/{$resource}");
+            }
+            else {
+                foreach ($resource as $filename) {
+                    copy(APPPATH . $key . '/' . $filename, APPPATH . $vendor . '/' . $filename);
+                }
             }
         });
     }
