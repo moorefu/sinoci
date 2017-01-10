@@ -48,13 +48,13 @@ class Script
             'vendor/sami/sami/Sami/Resources/themes/default/js' => [
                 'bootstrap.min.js'
             ],
+            'vendor/uikit/uikit' => 'uikit',
             'vendor/workerman/phpsocket.io/examples/chat/public' => [
                 'jquery.min.js'
             ],
             'vendor/workerman/phpsocket.io/examples/chat/public/socket.io-client' => [
                 'socket.io.js'
-            ],
-            'vendor/uikit/uikit' => 'uikit'
+            ]
         ];
 
         array_walk($resources, function ($resource, $key, $vendor = 'resources/assets/vendor') {

@@ -23,8 +23,6 @@
     "uikit/uikit": "2.27.*",
     "workerman/phpsocket.io": "1.1.*"
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "autoload": {
     "files": [
       "resources/helpers/functions.php"
