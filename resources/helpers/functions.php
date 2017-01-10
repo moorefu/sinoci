@@ -1,6 +1,7 @@
 <?php
 
 use App\Services\Process;
+use App\Services\Router;
 use App\Services\Table;
 use Illuminate\Support\Facades\View;
 
@@ -117,6 +118,15 @@ if (noFunc('response')) {
         }
 
         return app()->output->set_output($data);
+    }
+
+}
+
+if (noFunc('routes')) {
+
+    function routes(&$route)
+    {
+        return new Router($route);
     }
 
 }
