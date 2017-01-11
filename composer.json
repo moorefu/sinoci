@@ -21,6 +21,7 @@
   "require-dev": {
     "psy/psysh": "0.8.*",
     "sami/sami": "3.3.*",
+    "symfony/var-dumper": "2.8.*",
     "uikit/uikit": "2.27.*",
     "workerman/phpsocket.io": "1.1.*"
   },
