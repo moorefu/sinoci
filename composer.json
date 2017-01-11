@@ -9,17 +9,18 @@
     "wiki": "https://github.com/sinoci/sinoci/wiki"
   },
   "require": {
-    "php": ">=5.6.0",
+    "php": ">=5.4.0",
     "codeigniter/framework": "3.1.*",
-    "guzzlehttp/guzzle": "6.2.*",
-    "illuminate/database": "5.3.*",
-    "illuminate/pagination": "5.3.*",
-    "illuminate/view": "5.3.*",
+    "guzzlehttp/promises": "0.1.1",
+    "illuminate/database": "5.0.*",
+    "illuminate/events": "5.0.*",
+    "illuminate/pagination": "5.0.*",
+    "illuminate/view": "5.0.*",
     "leafo/scssphp": "0.6.*"
   },
   "require-dev": {
     "psy/psysh": "0.8.*",
-    "sami/sami": "4.0.*",
+    "sami/sami": "3.3.*",
     "uikit/uikit": "2.27.*",
     "workerman/phpsocket.io": "1.1.*"
   },

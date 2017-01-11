@@ -65,17 +65,17 @@ class Laravel
         });
 
         // 定制分页样式
-        // Paginator::presenter(function ($paginator) {
-        //
-        //     // 修复分页路径
-        //     $paginator->setPath(null);
-        //
-        //     // 添加已有参数
-        //     $paginator->appends(array_except(request()->get(), 'page'));
-        //
-        //     // 返回分页模板
-        //     return new Pagination($paginator);
-        // });
+        Paginator::presenter(function ($paginator) {
+
+            // 修复分页路径
+            $paginator->setPath(null);
+
+            // 添加已有参数
+            $paginator->appends(array_except(request()->get(), 'page'));
+
+            // 返回分页模板
+            return new Pagination($paginator);
+        });
 
         // 初始化 Eloquent
         $manager = new Manager($this->container);
