@@ -74,7 +74,7 @@ class Process implements PromiseInterface
 
     public function reject($reason)
     {
-        return $this->promise->reject($value);
+        return $this->promise->reject($reason);
     }
 
     public function cancel()
