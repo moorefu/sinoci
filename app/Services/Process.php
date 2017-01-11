@@ -42,15 +42,14 @@ class Process implements PromiseInterface
         return $this->otherwise($reject);
     }
 
-    private function parse($input)
+    private function parse($callable)
     {
-        if (is_callable($input)) {
-            return $input;
+        if (!is_callable($callable)) {
+            list($model, $method) = explode('@', $callable);
+            $callable = [app($model), $method];
         }
 
-        list($model, $func) = explode('@', $input);
-
-        return [app($model), $func];
+        return $callable;
     }
 
     public function then(callable $onFulfilled = null, callable $onRejected = null)

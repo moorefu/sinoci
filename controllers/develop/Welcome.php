@@ -8,7 +8,8 @@ class Welcome extends Controller
     public function index()
     {
         // 欢迎界面
-        return app('Guide')->sinoci();
+        return process()
+            ->next('Guide@sinoci');
     }
 
     public function chat($client, $message)

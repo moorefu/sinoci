@@ -19,12 +19,24 @@ class Router
 
     public function get($uri, $action)
     {
-        if (! is_callable($action)) {
-            list($class, $method) = explode('@', $action);
-            $action = [new $class, $method];
+        $this->route[$uri]['GET'] = $this->makeCallable($action);
+        return $this;
+    }
+
+    public function post($uri, $action)
+    {
+        $this->route[$uri]['POST'] = $this->makeCallable($action);
+        return $this;
+    }
+
+    private function makeCallable($callable)
+    {
+        if (!is_callable($callable)) {
+            list($class, $method) = explode('@', $callable);
+            $callable = [new $class, $method];
         }
 
-        $this->route[$uri]['GET'] = $action;
+        return $callable;
     }
 
 }
