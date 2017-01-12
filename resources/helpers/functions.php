@@ -2,7 +2,7 @@
 
 use App\Services\Process;
 use App\Services\Router;
-use App\Services\Table;
+use Illuminate\Database\Capsule\Manager;
 use Illuminate\Support\Facades\View;
 
 if (empty(function_exists('noFunc'))) {
@@ -150,15 +150,19 @@ if (noFunc('session')) {
 
 if (noFunc('table')) {
 
-    function table($name = null)
+    function table($name = null, $schema = null)
     {
         if (is_null($name)) {
-            return new Table;
+            return Manager::connection();
+        }
+
+        if (is_callable($schema)) {
+            return Manager::schema()->create($name, $schema);
         }
 
         $table = '\\App\\Tables\\' . str_replace('.', '\\', $name);
 
-        return new $table;
+        return class_exists($table) ? new $table : Manager::table($name);
     }
 
 }
