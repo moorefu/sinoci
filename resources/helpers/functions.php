@@ -150,14 +150,10 @@ if (noFunc('session')) {
 
 if (noFunc('table')) {
 
-    function table($name = null, $schema = null)
+    function table($name = null)
     {
         if (is_null($name)) {
             return Manager::connection();
-        }
-
-        if (is_callable($schema)) {
-            return Manager::schema()->create($name, $schema);
         }
 
         $table = '\\App\\Tables\\' . str_replace('.', '\\', $name);
