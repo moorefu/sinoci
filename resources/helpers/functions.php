@@ -140,7 +140,7 @@ if (noFunc('session')) {
         }
 
         if (is_null($value)) {
-            return app()->session->{$value};
+            return app()->session->{$key};
         }
 
         app()->session->{$isFlash ? 'set_flashdata' : 'set_userdata'}($key, $value);
