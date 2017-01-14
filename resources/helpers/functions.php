@@ -96,15 +96,15 @@ if (noFunc('push')) {
 
 if (noFunc('request')) {
 
-    function request($data = null)
+    function request($key = null, $default = null)
     {
-        if (is_null($data)) {
+        if (is_null($key)) {
             return app()->input;
         }
 
         $method = app()->input->method();
 
-        return array_get(app()->input->{$method}(), $data);
+        return array_get(app()->input->{$method}(), $key, $default);
     }
 
 }
