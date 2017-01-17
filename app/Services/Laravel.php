@@ -36,12 +36,31 @@ class Laravel
         // 初始化容器
         $this->container = new Container;
 
-        // 依次开启功能
-        $this->bootEloquent();
-        $this->bootBlade();
+        // 循环开启功能
+        array_filter($this->getServices(), function ($service) {
+            call_user_func([$this, 'boot' . $service]);
+        });
 
         // 绑定应用容器
         Facade::setFacadeApplication($this->container);
+    }
+
+    /**
+     * 获取服务列表
+     *
+     * @return array
+     */
+    public function getServices()
+    {
+        // 获取配置
+        $services = config('use_laravel');
+
+        // 格式转换
+        is_bool($services) && $services = ['eloquent', 'blade'];
+        is_string($services) && $services = [$services];
+
+        // 返回服务列表
+        return $services;
     }
 
     /**
