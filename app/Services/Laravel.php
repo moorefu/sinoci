@@ -74,10 +74,6 @@ class Laravel
         $this->bootService(EventServiceProvider::class);
         $this->bootService(DatabaseServiceProvider::class);
 
-        // 加载数据库配置
-        load_class('Config', 'core')->load('database', true);
-        load_class('Config', 'core')->load('pagination', true);
-
         // 修复分页页码
         Paginator::currentPageResolver(function () {
             return request()->get('page') ?: 1;

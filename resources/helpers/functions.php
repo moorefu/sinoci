@@ -40,8 +40,17 @@ if (noFunc('app')) {
 
 if (noFunc('config')) {
 
-    function config($key, $default = null)
+    function config($key = null, $default = null)
     {
+        if (is_null($key)) {
+            return get_config();
+        }
+
+        if (!array_has(get_config(), $key)) {
+            $config = explode('.', $key)[0];
+            load_class('Config', 'core')->load($config, true);
+        }
+
         return array_get(get_config(), $key, $default);
     }
 
