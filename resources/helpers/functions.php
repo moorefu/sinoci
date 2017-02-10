@@ -142,17 +142,21 @@ if (noFunc('routes')) {
 
 if (noFunc('session')) {
 
-    function session($key = null, $value = null, $isFlash = false)
+    function session($key = null, $value = null)
     {
+        $session = app()->session;
+
         if (is_null($key)) {
-            return app()->session;
+            return $session;
         }
+
+        $key = APP_ENV . '.' . $key;
 
         if (is_null($value)) {
-            return app()->session->{$key};
+            return array_get($_SESSION, $key);
         }
 
-        app()->session->{$isFlash ? 'set_flashdata' : 'set_userdata'}($key, $value);
+        return array_set($_SESSION, $key, $value);
     }
 
 }
