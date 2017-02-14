@@ -1,30 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Traits\Welcome;
 
-use App\Services\Model;
-
-/**
- * 入门手册业务模型
- *
- * @package App\Models
- */
-class Guide extends Model
+trait Sinoci
 {
 
-    public function welcome()
-    {
-        // 添加 CI 默认视图目录
-        app()->load->add_package_path(dirname(BASEPATH) . '/application/');
+    use CodeIgniter;
 
-        // 加载 CI 默认欢迎页
-        return app()->load->view('welcome_message', null, true);
-    }
-
-    public function sinoci()
+    private function sinoci()
     {
         // 修正信息
-        return strtr($this->welcome(), [
+        return strtr($this->codeIgniter(), [
             ' to CodeIgniter!' => '',
             '40px' => '40px 10px',
             'application/controllers/Welcome.php' => 'controllers/' . APP_ENV . '/Welcome.php',

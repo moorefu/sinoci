@@ -9,7 +9,7 @@ class Welcome extends Controller
     {
         // 欢迎界面
         return process()
-            ->next('Guide@sinoci');
+            ->next('Site@showWelcome');
     }
 
     public function chat($client, $message)
