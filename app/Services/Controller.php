@@ -59,20 +59,33 @@ class Controller
      */
     public function __get($name)
     {
+        // 修复 CI 类库
+        if (in_array($name, ['config', 'lang', 'load', 'input', 'output', 'uri'])) {
+            return load_class($name === 'load' ? 'Loader' : is_loaded()[$name], 'core');
+        }
+
         // 修复 cache 类库
         if ($name === 'cache') {
             app()->load->driver('cache', ['adapter' => 'redis', 'backup' => 'file']);
             return app()->cache;
         }
 
-        // 加载 CI 类库
-        if (in_array($name, ['agent', 'cart', 'email', 'encryption', 'form_validation', 'image_lib', 'session', 'unit', 'upload'])) {
-            app()->load->library(array_get(['agent' => 'user_agent', 'unit' => 'unit_test'], $name, $name));
-            return app()->$name;
+        // 修复 database 类库
+        if ($name === 'db') {
+            require_once dirname(BASEPATH) . '/application/config/database.php';
+            $db['default']['database'] = config('database.database');
+            $db['default']['dbdriver'] = 'pdo';
+            $db['default']['hostname'] = config('database.host');
+            $db['default']['password'] = config('database.password');
+            $db['default']['subdriver']= config('database.driver');
+            $db['default']['username'] = config('database.username');
+            app()->load->database($db['default']);
+            return app()->db;
         }
 
-        // 加载系统类库
-        return load_class($name === 'load' ? 'Loader' : is_loaded()[$name], 'core');
+        // 修复其他类库
+        app()->load->library(array_get(['agent' => 'user_agent', 'unit' => 'unit_test'], $name, $name));
+        return app()->$name;
     }
 
     /**
