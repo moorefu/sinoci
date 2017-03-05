@@ -13,6 +13,6 @@ interface Welcome
     /**
      * 聊天室发送消息接口
      */
-    public function chat();
+    public function chat($client, $message);
 
 }
