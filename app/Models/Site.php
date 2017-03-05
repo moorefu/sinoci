@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Model;
+use App\Logics\Model\Site as Logic;
 use App\Traits\Welcome\Sinoci;
 
 /**
@@ -10,7 +11,7 @@ use App\Traits\Welcome\Sinoci;
  *
  * @package App\Models
  */
-class Site extends Model
+class Site extends Model implements Logic
 {
 
     use Sinoci;

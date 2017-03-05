@@ -1,8 +1,9 @@
 <?php
 
 use App\Services\Controller;
+use App\Logics\Client\Develop\Welcome as Logic;
 
-class Welcome extends Controller
+class Welcome extends Controller implements Logic
 {
 
     public function index()
