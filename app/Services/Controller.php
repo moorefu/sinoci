@@ -73,13 +73,14 @@ class Controller
         // 修复 database 类库
         if ($name === 'db') {
             require_once dirname(BASEPATH) . '/application/config/database.php';
-            $db['default']['database'] = config('database.database');
-            $db['default']['dbdriver'] = 'pdo';
-            $db['default']['hostname'] = config('database.host');
-            $db['default']['password'] = config('database.password');
-            $db['default']['subdriver']= config('database.driver');
-            $db['default']['username'] = config('database.username');
-            app()->load->database($db['default']);
+            app()->load->database([
+                'database' => config('database.database'),
+                'dbdriver' => 'pdo',
+                'hostname' => config('database.host'),
+                'password' => config('database.password'),
+                'subdriver' => config('database.driver'),
+                'username' => config('database.username')
+            ] + $db['default']);
             return app()->db;
         }
 
