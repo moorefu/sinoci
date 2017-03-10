@@ -60,7 +60,7 @@ class Controller
     public function __get($name)
     {
         // 修复 CI 类库
-        if (in_array($name, ['config', 'lang', 'load', 'input', 'output', 'uri'])) {
+        if (in_array($name, ['config', 'lang', 'load', 'input', 'output', 'security', 'uri'])) {
             return load_class($name === 'load' ? 'Loader' : is_loaded()[$name], 'core');
         }
 
@@ -82,6 +82,11 @@ class Controller
                 'username' => config('database.username')
             ] + $db['default']);
             return app()->db;
+        }
+
+        // 修复 upload 类库
+        if ($name === 'upload') {
+            file_exists($upload = config('upload.upload_path')) OR mkdir($upload);
         }
 
         // 修复其他类库

@@ -44,22 +44,22 @@ class Loader
      * @param string $name
      * @return \CI_Output
      */
-    public function raw($name)
+    public function raw($name, $prefix = false)
     {
         // 资源路径
-        $file = APPPATH . 'resources/assets/' . $name;
+        $prefix OR $name = APPPATH . 'resources/assets/' . $name;
 
         // 文件是否存在
-        file_exists($file) OR show_404();
+        file_exists($name) OR show_404();
 
         // 加载输出类库
         $output = load_class('Output', 'core');
 
         // 设置响应类型
-        $output->set_content_type(pathinfo($file, PATHINFO_EXTENSION));
+        $output->set_content_type(pathinfo($name, PATHINFO_EXTENSION));
 
         // 输出响应
-        $output->set_output(file_get_contents($file))->_display();
+        $output->set_output(file_get_contents($name))->_display();
     }
 
     /**
@@ -82,6 +82,21 @@ class Loader
         // scss 服务启动
         $server = new Server(APPPATH . 'resources/assets', config('cache_path'), $scss);
         $server->serve();
+    }
+
+    /**
+     * 上传资源加载
+     *
+     * @param string $name
+     * @return \CI_Output
+     */
+    public function upload($name)
+    {
+        // 资源路径
+        $name = dirname(config('upload.upload_path')) . '/' . $name;
+
+        // 加载资源
+        $this->raw($name, true);
     }
 
 }
