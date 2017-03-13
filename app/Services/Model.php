@@ -29,10 +29,10 @@ class Model
             $model = new $this->adapt['model'];
             $adapt = function ($model, $func, $args) {
                 if (is_callable($func)) {
-                    $args = call_user_func($func, $args);
+                    return call_user_func($func, $args);
                 }
-                elseif (method_exists($model, $func)) {
-                    $args = call_user_func([$model, $func], $args);
+                if (method_exists($model, $func)) {
+                    return call_user_func([$model, $func], $args);
                 }
                 return $args;
             };
