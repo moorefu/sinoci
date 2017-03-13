@@ -31,6 +31,7 @@ class Router
     {
         if (!is_callable($callable)) {
             list($class, $method) = explode('@', $callable);
+            $class = '\\' . str_replace('.', '\\', $class);
             $callable = [new $class, $method];
         }
 
