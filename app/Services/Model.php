@@ -16,7 +16,7 @@ class Model
     {
         $model = new self;
         $model->adapt = [
-            'model' => get_called_class(),
+            'model' => $this,
             'before' => $before,
             'after' => $after
         ];
@@ -26,7 +26,7 @@ class Model
     public function __call($func, $args)
     {
         if ($this->adapt) {
-            $model = new $this->adapt['model'];
+            $model = $this->adapt['model'];
             $adapt = function ($model, $func, $args) {
                 if (is_callable($func)) {
                     return call_user_func($func, $args);
