@@ -12,7 +12,7 @@ class Model
 
     private $adapt;
 
-    public function adapt($before, $after)
+    public function adapt($before, $after = null)
     {
         $model = new self;
         $model->adapt = [
