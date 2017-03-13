@@ -79,12 +79,12 @@ class Table extends Eloquent
      * 获取相应分页或列表
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $count
+     * @param $perPage
      * @return mixed
      */
-    public function scopeGetList($query, $count = 0)
+    public function scopeGetList($query, $perPage = null)
     {
-        return $count ? $query->paginate($count) : $query->get();
+        return $perPage ? $query->paginate($perPage) : $query->get();
     }
 
 }
