@@ -27,18 +27,19 @@ class Model
     {
         if ($this->adapt) {
             $model = new $this->adapt['model'];
+            $adapt = function ($model, $func, $args) {
+                if (is_callable($func)) {
+                    $args = call_user_func($func, $args);
+                }
+                elseif (method_exists($model, $func)) {
+                    $args = call_user_func([$model, $func], $args);
+                }
+                return $args;
+            };
 
-            if (method_exists($model, $before = $this->adapt['before'])) {
-                $args = call_user_func([$model, $before], $args);
-            }
-
+            $args = $adapt($model, $this->adapt['before'], $args);
             $data = call_user_func_array([$model, $func], $args);
-
-            if (method_exists($model, $after = $this->adapt['after'])) {
-                $data = call_user_func([$model, $after], $data);
-            }
-
-            return $data;
+            return $adapt($model, $this->adapt['after'], $data);
         }
 
         throw new \Error('Call to undefined method ' . get_called_class() . "::{$func}()");
