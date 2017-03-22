@@ -152,11 +152,12 @@ if (noFunc('session')) {
 
         $key = APP_ENV . '.' . $key;
 
-        if (is_null($value)) {
+        if (func_num_args() == 1) {
             return array_get($_SESSION, $key);
         }
 
-        return array_set($_SESSION, $key, $value);
+        array_set($_SESSION, $key, $value);
+        return $value;
     }
 
 }
