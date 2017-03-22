@@ -10,39 +10,21 @@ namespace App\Services;
 class Model
 {
 
-    private $adapt;
+    protected $onAir;
 
-    public function adapt($before, $after = null)
+    public function current($attributes = null)
     {
-        $model = new self;
-        $model->adapt = [
-            'model' => $this,
-            'before' => $before,
-            'after' => $after
-        ];
-        return $model;
-    }
+        $onAir = $this->onAir ?: get_called_class();
 
-    public function __call($func, $args)
-    {
-        if ($this->adapt) {
-            $model = $this->adapt['model'];
-            $adapt = function ($model, $func, $args) {
-                if (is_callable($func)) {
-                    return call_user_func($func, $args);
-                }
-                if (method_exists($model, $func)) {
-                    return call_user_func([$model, $func], $args);
-                }
-                return $args;
-            };
-
-            $args = $adapt($model, $this->adapt['before'], $args);
-            $data = call_user_func_array([$model, $func], $args);
-            return $adapt($model, $this->adapt['after'], $data);
+        if (func_num_args() == 0) {
+            return session($onAir);
         }
 
-        throw new \Error('Call to undefined method ' . get_called_class() . "::{$func}()");
+        if (is_string($attributes)) {
+            return data_get(session($onAir), $attributes);
+        }
+
+        return session($onAir, $attributes);
     }
 
 }
