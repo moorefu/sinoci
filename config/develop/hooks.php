@@ -11,4 +11,5 @@ $hook['pre_system'][] = function () {
         // 创建 Sqlite 数据库
         new PDO('sqlite:' . $file);
     }
+
 };
