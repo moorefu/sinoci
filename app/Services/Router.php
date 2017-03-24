@@ -29,17 +29,16 @@ class Router
 
     private function makeCallable($callable)
     {
-        if (is_callable($callable)) {
-            return $callable;
-        }
-
         if (str_contains($callable, '@')) {
             list($class, $method) = explode('@', $callable);
             $class = '\\' . str_replace('.', '\\', $class);
-            $callable = [new $class, $method];
+
+            if (class_exists($class)) {
+                return [new $class, $method];
+            }
         }
 
-        return $callable;
+        return strtr($callable, '@', '/');
     }
 
     private function makeAction($uri, $method)
@@ -61,7 +60,7 @@ class Router
     private function makeRoute($uri, $action = 'show_404', $method = 'GET')
     {
         if (is_string($uri)) {
-            $this->route[$uri][$method] = $this->makeCallable($action);
+            $this->route[$uri][$method] = is_callable($action) ? $action : $this->makeCallable($action);
         }
         else {
             $this->makeAction($uri, $method);
