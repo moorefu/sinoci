@@ -10,8 +10,17 @@ namespace App\Services;
 class Model
 {
 
+    /**
+     * 当前关联识别键
+     */
     protected $onAir;
 
+    /**
+     * 获取当前关联实例
+     *
+     * @param null $attributes
+     * @return mixed|null
+     */
     public function current($attributes = null)
     {
         $onAir = $this->onAir ?: get_called_class();
