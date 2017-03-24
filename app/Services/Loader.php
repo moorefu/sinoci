@@ -77,7 +77,6 @@ class Loader
         $scss = new Compiler;
         $scss->setFormatter(Crunched::class);
         $scss->addImportPath(APPPATH . 'resources/assets/scss/');
-        $scss->addImportPath(APPPATH . 'resources/assets/vendor/uikit/scss/');
 
         // scss 服务启动
         $server = new Server(APPPATH . 'resources/assets', config('cache_path'), $scss);

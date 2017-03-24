@@ -38,43 +38,6 @@ class Script
     }
 
     /**
-     * 导入已有静态资源
-     */
-    public function assets()
-    {
-        $resources = [
-            'vendor/sami/sami/Sami/Resources/themes/default/css' => [
-                'bootstrap.min.css',
-                'bootstrap-theme.min.css'
-            ],
-            'vendor/sami/sami/Sami/Resources/themes/default/js' => [
-                'bootstrap.min.js'
-            ],
-            'vendor/uikit/uikit' => 'uikit',
-            'vendor/workerman/phpsocket.io/examples/chat/public' => [
-                'jquery.min.js'
-            ],
-            'vendor/workerman/phpsocket.io/examples/chat/public/socket.io-client' => [
-                'socket.io.js'
-            ]
-        ];
-
-        array_walk($resources, function ($resource, $key, $vendor = 'resources/assets/vendor') {
-
-            file_exists(APPPATH . $vendor) OR mkdir(APPPATH . $vendor);
-
-            if (is_string($resource)) {
-                passthru('cp -a ' . APPPATH . "{$key} " . APPPATH . "{$vendor}/{$resource}");
-            }
-            else {
-                foreach ($resource as $filename) {
-                    copy(APPPATH . $key . '/' . $filename, APPPATH . $vendor . '/' . $filename);
-                }
-            }
-        });
-    }
-
-    /**
      * 进入调试模式
      */
     public function debug()
