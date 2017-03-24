@@ -29,7 +29,11 @@ class Router
 
     private function makeCallable($callable)
     {
-        if (!is_callable($callable)) {
+        if (is_callable($callable)) {
+            return $callable;
+        }
+
+        if (str_contains($callable, '@')) {
             list($class, $method) = explode('@', $callable);
             $class = '\\' . str_replace('.', '\\', $class);
             $callable = [new $class, $method];
