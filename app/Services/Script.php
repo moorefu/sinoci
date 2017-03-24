@@ -32,6 +32,8 @@ class Script
     public function api()
     {
         passthru('php vendor/sami/sami/sami.php update --force scripts/docs.api.php');
+        echo "Listening on http://localhost:9000\n";
+        echo "Press Ctrl-C to quit.\n";
         passthru('php -S localhost:9000 -t docs/api');
     }
 

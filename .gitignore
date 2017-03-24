@@ -1,4 +1,7 @@
-.idea
-storage
-vendor
+.idea/
+docs/
+storage/
+vendor/
+
 composer.lock
+composer.phar
