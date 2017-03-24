@@ -47,7 +47,7 @@ class Router
     {
         foreach ($uri as $url => $action) {
             if (is_string($url)) {
-               $this->route[$url][$method] = $action;
+               $this->makeRoute($url, $action, $method);
             }
             else {
                $this->route[$action][$method] = preg_replace_callback('/(\w+\/)(.+)/', function ($matches) {
