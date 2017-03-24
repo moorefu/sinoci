@@ -36,9 +36,11 @@ class Router
             if (class_exists($class)) {
                 return [new $class, $method];
             }
+
+            $callable = strtr($callable, '@', '/');
         }
 
-        return strtr($callable, '@', '/');
+        return $callable;
     }
 
     private function makeAction($uri, $method)
