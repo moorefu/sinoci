@@ -84,6 +84,8 @@ class Table extends Eloquent
      */
     public function scopeGetList($query, $perPage = null)
     {
+        $perPage = $perPage ?: request()->get('limit');
+        $query = $query->orderBy($this->primaryKey, 'desc');
         return $perPage ? $query->paginate($perPage) : $query->get();
     }
 
