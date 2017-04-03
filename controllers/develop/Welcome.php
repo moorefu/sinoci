@@ -19,4 +19,16 @@ class Welcome extends Controller implements Logic
         return push('new message', [$client, $message]);
     }
 
+    public function migrate()
+    {
+        // 创建数据表
+        table('user')->make();
+
+        // 插入数据
+        table('user')->insert();
+
+        // 查询全部数据
+        return table('user')->withTrashed()->get();
+    }
+
 }

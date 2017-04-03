@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * 框架组件 - 数据表
@@ -13,80 +14,68 @@ class Table extends Eloquent
 {
 
     /**
-     * 是否使用 created_at, updated_at
-     *
-     * @var bool
+     * 使用软删除
      */
-    public $timestamps = false;
+    use SoftDeletes;
 
     /**
-     * 拼接 like 搜索
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $key
-     * @param mixed $val
-     * @return \Illuminate\Database\Eloquent\Builder
+     * 应用时间格式
      */
-    public function scopeLike($query, $key, $val)
+    protected $dates = ['deleted_at'];
+
+    /**
+     * 数据表结构
+     */
+    protected $schema = [];
+
+    /**
+     * 构造函数
+     */
+    public function __construct($attributes = [])
     {
-        // like 查询
-        return $query->where($key, 'like', "%{$val}%");
+        $this->fillable = array_keys($this->schema());
+
+        $this->table = snake_case(class_basename($this));
+
+        parent::__construct($attributes);
     }
 
     /**
-     * 拼接 like raw 搜索
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $key
-     * @param mixed $val
-     * @return \Illuminate\Database\Eloquent\Builder
+     * 插入数据
      */
-    public function scopeLikeRaw($query, $key, $val)
+    public function insert($data = [])
     {
-        // like 拼接查询
-        return $query->whereRaw("{$key} like '%{$val}%'");
+        $defaults = array_pluck($this->schema(), 'default');
+
+        $data += array_combine($this->fillable, $defaults);
+
+        return static::create($data);
     }
 
     /**
-     * 拼接 or like 搜索
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $key
-     * @param mixed $val
-     * @return \Illuminate\Database\Eloquent\Builder
+     * 创建数据表
      */
-    public function scopeOrLike($query, $key, $val)
+    public function make()
     {
-        // orLike 查询
-        return $query->orWhere($key, 'like', "%{$val}%");
+        return table($this->table, function ($table) {
+            $table->increments($this->primaryKey);
+            $table->nullableTimestamps();
+            $table->softDeletes();
+
+            array_walk($this->schema, function ($value, $key) use ($table) {
+                $table->{$value['type']}($key)->nullable();
+            });
+        });
     }
 
     /**
-     * 拼接 or like raw 搜索
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $key
-     * @param mixed $val
-     * @return \Illuminate\Database\Eloquent\Builder
+     * 返回表结构
      */
-    public function scopeOrLikeRaw($query, $key, $val)
+    protected function schema()
     {
-        // orLike 拼接查询
-        return $query->orWhereRaw("{$key} like '%{$val}%'");
-    }
+        $this->schema += [];
 
-    /**
-     * 获取相应分页或列表
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param $perPage
-     * @return mixed
-     */
-    public function scopeGetList($query, $perPage = null)
-    {
-        $perPage = $perPage ?: request()->get('limit');
-        $query = $query->orderBy($this->primaryKey, 'desc');
-        return $perPage ? $query->paginate($perPage) : $query->get();
+        return array_except($this->schema, $this->primaryKey);
     }
 
 }

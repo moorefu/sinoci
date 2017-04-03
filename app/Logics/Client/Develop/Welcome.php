@@ -15,4 +15,9 @@ interface Welcome
      */
     public function chat($client, $message);
 
+    /**
+     * 数据库迁移示例
+     */
+    public function migrate();
+
 }
