@@ -57,7 +57,7 @@ class Controller
     public function __get($name)
     {
         // 修复 CI 类库
-        if (in_array($name, ['config', 'lang', 'load', 'input', 'output', 'security', 'uri'])) {
+        if (in_array($name, ['config', 'lang', 'load', 'input', 'output', 'router', 'security', 'uri'])) {
             return load_class($name === 'load' ? 'Loader' : is_loaded()[$name], 'core');
         }
 
