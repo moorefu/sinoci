@@ -7,4 +7,7 @@ require_once dirname(BASEPATH) . '/application/config/routes.php';
 routes($route)
 
 // 静态资源
-->get('assets/(.+)', 'App.Services.Loader@assets');
+->get([
+    'assets/(.+)' => 'App.Services.Loader@assets',
+    '(upload/.+)' => 'App.Services.Loader@upload'
+]);
