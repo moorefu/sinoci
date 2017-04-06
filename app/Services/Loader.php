@@ -94,6 +94,32 @@ class Loader
         // 资源路径
         $name = dirname(config('upload.upload_path')) . '/' . $name;
 
+        // 缩略图
+        if (noFile($name) && str_contains($name, '/thumb/')) {
+
+            // 匹配信息
+            preg_match('/thumb\/([^_]+)_(\d+)x(\d+)(.+)/', $name, $matches);
+            list(,$file, $width, $height, $ext) = $matches;
+
+            // 加载编辑库
+            $image = load_class('Image_lib');
+
+            // 配置信息
+            $image->initialize([
+                'create_thumb' => true,
+                'height' => $height,
+                'maintain_ratio' => true,
+                'new_image' => dirname(config('upload.upload_path')) . '/upload/thumb',
+                'quality' => '100%',
+                'source_image' => dirname(config('upload.upload_path')) . '/upload/' . $file . $ext,
+                'thumb_marker' => '_' . $width . 'x' . $height,
+                'width' => $width
+            ]);
+
+            // 生成缩略图
+            $image->resize();
+        }
+
         // 加载资源
         $this->raw($name, true);
     }
