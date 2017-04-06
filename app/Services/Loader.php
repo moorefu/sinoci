@@ -99,7 +99,7 @@ class Loader
 
             // 匹配信息
             preg_match('/thumb\/([^_]+)_(\d+)x(\d+)(.+)/', $name, $matches);
-            list(,$file, $width, $height, $ext) = $matches;
+            list(, $file, $width, $height, $ext) = $matches;
 
             // 加载编辑库
             $image = load_class('Image_lib');
