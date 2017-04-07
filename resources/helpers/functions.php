@@ -113,7 +113,9 @@ if (noFunc('request')) {
 
         $method = app()->input->method();
 
-        return array_get(app()->input->{$method}(), $key, $default);
+        $value = array_get(app()->input->{$method}(), $key, $default);
+
+        return $value === 'false' ? false : $value;
     }
 
 }
