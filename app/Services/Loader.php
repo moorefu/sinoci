@@ -101,6 +101,11 @@ class Loader
             preg_match('/thumb\/([^_]+)_(\d+)x(\d+)(.+)/', $name, $matches);
             list(, $file, $width, $height, $ext) = $matches;
 
+            // 原图信息
+            $source = dirname(config('upload.upload_path')) . '/upload/' . $file . $ext;
+            list($sourceWidth, $sourceHeight) = getimagesize($source);
+            $useWidth = $sourceHeight * $width > $sourceWidth * $height;
+
             // 加载编辑库
             $image = load_class('Image_lib');
 
@@ -109,15 +114,32 @@ class Loader
                 'create_thumb' => true,
                 'height' => $height,
                 'maintain_ratio' => true,
+                'master_dim' => $useWidth ? 'width' : 'height',
                 'new_image' => dirname(config('upload.upload_path')) . '/upload/thumb',
                 'quality' => '100%',
-                'source_image' => dirname(config('upload.upload_path')) . '/upload/' . $file . $ext,
+                'source_image' => $source,
                 'thumb_marker' => '_' . $width . 'x' . $height,
                 'width' => $width
             ]);
 
             // 生成缩略图
             $image->resize();
+
+            // 填充裁剪
+            if ($sourceHeight * $width != $sourceWidth * $height) {
+                list($sourceWidth, $sourceHeight) = getimagesize($name);
+                $image->clear();
+                $image->initialize([
+                    'height' => $height,
+                    'maintain_ratio' => false,
+                    'quality' => '100%',
+                    'source_image' => $name,
+                    'width' => $width,
+                    'x_axis' => ($sourceWidth - $width) / 2,
+                    'y_axis' => ($sourceHeight - $height) / 2,
+                ]);
+                $image->crop();
+            }
         }
 
         // 加载资源
