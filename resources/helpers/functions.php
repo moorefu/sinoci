@@ -33,7 +33,7 @@ if (noFunc('app')) {
 
         $model = '\\App\\Models\\' . str_replace('.', '\\', $name);
 
-        class_exists($model) && show_404();
+        class_exists($model) OR show_404();
 
         return new $model;
     }
