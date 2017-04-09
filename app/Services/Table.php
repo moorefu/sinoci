@@ -78,4 +78,14 @@ class Table extends Eloquent
         return array_except($this->schema, $this->primaryKey);
     }
 
+    /**
+     * 获取列表
+     */
+    public function scopeGetList($query, $perPage = null)
+    {
+        $query->orderBy($this->primaryKey, 'desc');
+
+        return $perPage ? $query->paginate($perPage) : $query->get();
+    }
+
 }
