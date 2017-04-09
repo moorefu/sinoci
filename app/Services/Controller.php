@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\AbstractPaginator;
+use ReflectionClass;
 
 /**
  * 框架组件 - 控制器
@@ -115,11 +116,18 @@ class Controller
     }
 
     /**
-     * 排除不存在的方法
+     * 模型链式调用
      */
     public function __call($func, $args)
     {
-        show_404();
+        // 模型类名
+        $class = '\\App\\Models\\' . str_replace('.', '\\', $func);
+
+        // 对应反射类
+        $model = new ReflectionClass($class);
+
+        // 返回实例
+        return $model->newInstanceArgs($args);
     }
 
 }
