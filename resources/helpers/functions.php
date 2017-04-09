@@ -7,18 +7,18 @@ use Illuminate\Support\Facades\View;
 
 if (empty(function_exists('noFunc'))) {
 
-    function noFunc($name)
+    function noFunc($func)
     {
-        return empty(function_exists($name));
+        return empty(function_exists($func));
     }
 
 }
 
 if (noFunc('noFile')) {
 
-    function noFile($path)
+    function noFile($file)
     {
-        return empty(file_exists($path));
+        return empty(file_exists($file));
     }
 
 }
@@ -32,6 +32,8 @@ if (noFunc('app')) {
         }
 
         $model = '\\App\\Models\\' . str_replace('.', '\\', $name);
+
+        class_exists($model) && show_404();
 
         return new $model;
     }

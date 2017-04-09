@@ -23,6 +23,9 @@ class Controller
      */
     public function _remap($func, array $args)
     {
+        // 检查方法是否存在
+        method_exists(app(), $func) OR show_404();
+
         // 加载类库和语言
         app()->load->add_package_path(APPPATH . 'resources');
 
@@ -93,29 +96,6 @@ class Controller
     }
 
     /**
-     * 相应渲染视图
-     *
-     * @param mixed $data
-     * @param string $view
-     * @param bool $absolute
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function view($data = null, $view = null, $absolute = false)
-    {
-        // 转换无数据模板
-        is_string($data) && $view = $data;
-
-        // 映射相应模板
-        $view = $view ?: implode('.', [app()->uri->rsegment(1), app()->uri->rsegment(2)]);
-
-        // 添加路径前缀
-        $absolute OR $view = APP_ENV . '.' . $view;
-
-        // 返回渲染结果
-        return view($view, compact('data'));
-    }
-
-    /**
      * 模型链式调用
      */
     public function __call($func, $args)
@@ -127,6 +107,9 @@ class Controller
 
         // 模型类名
         $class = '\\App\\Models\\' . str_replace('.', '\\', $func);
+
+        // 检测类名是否正确
+        class_exists($class) OR show_404();
 
         // 对应反射类
         $model = new ReflectionClass($class);
