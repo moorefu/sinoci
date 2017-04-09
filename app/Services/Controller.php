@@ -120,6 +120,11 @@ class Controller
      */
     public function __call($func, $args)
     {
+        // 无参实例
+        if (empty($args)) {
+            return app($func);
+        }
+
         // 模型类名
         $class = '\\App\\Models\\' . str_replace('.', '\\', $func);
 
