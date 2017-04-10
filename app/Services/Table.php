@@ -33,9 +33,9 @@ class Table extends Eloquent
      */
     public function __construct($attributes = [])
     {
-        $this->fillable = array_keys($this->schema());
+        empty($this->fillable) && $this->fillable = array_keys($this->schema());
 
-        $this->table = snake_case(class_basename($this));
+        $this->table OR $this->table = snake_case(class_basename($this));
 
         parent::__construct($attributes);
     }
