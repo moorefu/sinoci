@@ -15,6 +15,10 @@ class Util extends Model implements Logic
     
     public function upload($file, $path = null)
     {
+        app()->upload->initialize(config('upload') + [
+            'file_name' => md5_file($_FILES[$file]['tmp_name'])
+        ]);
+        
         if (is_string($path)) {
             app()->upload->upload_path = config('upload.upload_path') . $path;
             
