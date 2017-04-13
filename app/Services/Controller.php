@@ -85,11 +85,6 @@ class Controller
             return app()->db;
         }
 
-        // 修复 upload 类库
-        if ($name === 'upload') {
-            file_exists($upload = config('upload.upload_path')) OR mkdir($upload);
-        }
-
         // 修复其他类库
         app()->load->library(array_get(['agent' => 'user_agent', 'unit' => 'unit_test'], $name, $name));
         return app()->$name;
