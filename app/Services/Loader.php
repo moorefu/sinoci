@@ -98,11 +98,12 @@ class Loader
         if (noFile($name) && str_contains($name, '/thumb/')) {
 
             // 匹配信息
-            preg_match('/thumb\/([^_]+)_(\d+)x(\d+)(.+)/', $name, $matches);
-            list(, $file, $width, $height, $ext) = $matches;
+            $path = substr($name, strlen(config('upload.upload_path')));
+            preg_match('/(.*\/)thumb\/([^_]+)_(\d+)x(\d+)(.+)/', $path, $matches);
+            list(, $path, $file, $width, $height, $ext) = $matches;
 
             // 原图信息
-            $source = dirname(config('upload.upload_path')) . '/upload/' . $file . $ext;
+            $source = config('upload.upload_path') . $path . $file . $ext;
             list($sourceWidth, $sourceHeight) = getimagesize($source);
             $useWidth = $sourceHeight * $width > $sourceWidth * $height;
 
@@ -115,7 +116,7 @@ class Loader
                 'height' => $height,
                 'maintain_ratio' => true,
                 'master_dim' => $useWidth ? 'width' : 'height',
-                'new_image' => dirname(config('upload.upload_path')) . '/upload/thumb',
+                'new_image' => config('upload.upload_path') . $path . 'thumb',
                 'quality' => '100%',
                 'source_image' => $source,
                 'thumb_marker' => '_' . $width . 'x' . $height,
