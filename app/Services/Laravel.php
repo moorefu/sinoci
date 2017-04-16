@@ -43,6 +43,9 @@ class Laravel
 
         // 绑定应用容器
         Facade::setFacadeApplication($this->container);
+
+        // 开启事件监听
+        (new Event)->bindEvents();
     }
 
     /**
@@ -57,10 +60,9 @@ class Laravel
 
         // 格式转换
         is_bool($services) && $services = ['eloquent', 'blade'];
-        is_string($services) && $services = [$services];
 
         // 返回服务列表
-        return $services;
+        return (array)$services;
     }
 
     /**
