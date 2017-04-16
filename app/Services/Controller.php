@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\AbstractPaginator;
 use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * 框架组件 - 控制器
@@ -28,6 +29,12 @@ class Controller
 
         // 加载类库和语言
         app()->load->add_package_path(APPPATH . 'resources');
+
+        // 依赖注入模型实例
+        if (config('use_injection')) {
+            $args = (new ReflectionMethod(app(), $func))->getParameters();
+            $args = array_map(function ($_) { return app($_->getName()); }, $args);
+        }
 
         // 获取程序执行结果
         $output = call_user_func_array([app(), $func], $args);

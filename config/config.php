@@ -27,5 +27,8 @@ $config['log_path'] = APPPATH . 'storage/logs';
 // 配置 会话目录
 $config['sess_save_path'] = APPPATH . 'storage/sessions';
 
-// 始终启用 Laravel 扩展
+// 启用 依赖注入
+$config['use_injection'] = true;
+
+// 启用 Laravel 扩展
 $config['use_laravel'] = true;
