@@ -23,6 +23,7 @@ class Site extends Model implements Logic
 
         // 修正信息
         return strtr($welcome, [
+            ' seconds.' => 'S/<strong>' . round(memory_get_usage() / 1024 / 1024, 2) . '</strong>MB. CodeIgniter Version <strong>' . CI_VERSION . '</strong>',
             ' to CodeIgniter!' => '',
             '40px' => '40px 10px',
             'application/controllers/Welcome.php' => 'controllers/' . APP_ENV . '/Welcome.php',
