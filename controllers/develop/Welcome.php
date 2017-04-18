@@ -25,13 +25,17 @@ class Welcome extends Controller implements Logic
     public function migrate()
     {
         // 创建数据表
+        table('login')->make();
         table('user')->make();
 
         // 插入数据
-        table('user')->insert();
+        $login = table('login')->insert();
+        table('user')->insert([
+            'login_id' => $login->id
+        ]);
 
         // 查询全部数据
-        return table('user')->withTrashed()->get();
+        return table('user')->with('login')->withTrashed()->get();
     }
 
 }

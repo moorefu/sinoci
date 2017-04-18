@@ -5,7 +5,7 @@ namespace App\Tables;
 use App\Services\Table;
 use App\Widgets\Query\GetList;
 
-class User extends Table
+class Login extends Table
 {
 
     use GetList;
@@ -13,20 +13,20 @@ class User extends Table
     protected function schema()
     {
         $this->schema = [
-            'username' => [
+            'phone' => [
                 'type' => 'string'
             ],
-            'login_id' => [
-                'type' => 'integer'
+            'password' => [
+                'type' => 'string'
             ]
         ];
 
         return parent::schema();
     }
 
-    public function login()
+    public function user()
     {
-        return $this->belongsTo(Login::class, 'login_id');
+        return $this->hasOne(User::class, 'login_id');
     }
 
 }
