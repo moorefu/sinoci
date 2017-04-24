@@ -21,10 +21,10 @@ class Util extends Model implements Logic
         
         if (is_string($path)) {
             app()->upload->upload_path = config('upload.upload_path') . $path;
+        }
             
-            if (noFile($path = app()->upload->upload_path)) {
-                mkdir($path) && mkdir($path . 'thumb/');
-            }
+        if (noFile($path = app()->upload->upload_path)) {
+            mkdir($path) && mkdir($path . 'thumb/');
         }
         
         return app()->upload->do_upload($file);
